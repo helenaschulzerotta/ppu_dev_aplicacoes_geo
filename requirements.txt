@@ -1,3 +1,4 @@
 streamlit
+pandas
 folium
-folium_static
+streamlit-folium
