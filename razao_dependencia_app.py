@@ -25,8 +25,8 @@ def carregar_dados():
 
     with open(
     "https://github.com/helenaschulzerotta/ppu_dev_aplicacoes_geo/blob/a45bd7c6d1e7eed4e06abcee65c592446eb1fe81/municipios.geojson",
-    encoding="utf-8"
-) as f:
+    encoding="utf-8) 
+    as f:
     gdf = json.load(f)
 
     tabela = pd.read_csv(
