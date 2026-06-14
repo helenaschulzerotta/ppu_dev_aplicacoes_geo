@@ -216,8 +216,7 @@ else:
             fields=["NM_MUN"],
             aliases=["Município:"]
         ),
-        style_function=lambda x: {
-            "fillColor": "#ff7800",
+        style_function=lambda feature: {
             "color": "black",
             "weight": 2,
             "fillOpacity": 0.8
