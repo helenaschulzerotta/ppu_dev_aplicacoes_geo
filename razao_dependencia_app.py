@@ -26,7 +26,7 @@ def carregar_dados():
     gdf = gpd.read_file("https://github.com/helenaschulzerotta/ppu_dev_aplicacoes_geo/blob/a45bd7c6d1e7eed4e06abcee65c592446eb1fe81/municipios.geojson")
 
     tabela = pd.read_csv(
-        "data/indicadores_municipios.csv"
+        "https://github.com/helenaschulzerotta/ppu_dev_aplicacoes_geo/blob/e43d4cb2f415e264e9c8d496ea5db59c1fdc71f9/indicadores_municipios.csv"
     )
 
     return gdf, tabela
