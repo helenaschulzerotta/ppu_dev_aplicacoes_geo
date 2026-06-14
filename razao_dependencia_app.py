@@ -215,7 +215,13 @@ else:
         tooltip=folium.GeoJsonTooltip(
             fields=["NM_MUN"],
             aliases=["Município:"]
-        )
+        ),
+        style_function=lambda x: {
+            "fillColor": "#ff7800",
+            "color": "black",
+            "weight": 2,
+            "fillOpacity": 0.8
+        }
     ).add_to(mapa)
 
     st_folium(
