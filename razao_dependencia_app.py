@@ -24,7 +24,7 @@ st.set_page_config(
 def carregar_dados():
 
     with open("municipios.geojson", encoding="utf-8") as f:
-    geojson_data = json.load(f)
+        geojson_data = json.load(f)
 
     tabela = pd.read_csv(
         "indicadores_municipios.csv"
