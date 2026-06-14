@@ -40,13 +40,6 @@ geojson_data, tabela = carregar_dados()
 # Padronização entre arquivos
 # ---------------------------------------------------
 
-tabela["municipio"] = (
-    tabela["municipio"]
-    .astype(str)
-    .str.upper()
-    .str.strip()
-)
-
 tabela["razao_dependencia"] = pd.to_numeric(
     tabela["razao_dependencia"],
     errors="coerce"
@@ -61,7 +54,7 @@ tabela["municipio"] = (
 )
 
 for feature in geojson_data["features"]:
-    feature["properties"]["NM_MUN_PAD"] = (
+    feature["properties"]["NM_MUN"] = (
         unidecode(
             feature["properties"]["NM_MUN"]
         )
@@ -164,13 +157,13 @@ st.plotly_chart(
 st.write("Municípios CSV:", len(tabela)) #report
 
 nomes_geojson = [
-    f["properties"]["NM_MUN_PAD"]
+    f["properties"]["NM_MUN"]
     for f in geojson_data["features"]
 ] #report
 
 st.write(
     "Correspondências:",
-    tabela["municipio_pad"].isin(nomes_geojson).sum()
+    tabela["municipio"].isin(nomes_geojson).sum()
 ) #report
 
 st.subheader("Mapa")
@@ -183,8 +176,8 @@ mapa = folium.Map(
 folium.Choropleth(
     geo_data=geojson_data,
     data=tabela,
-    columns=["municipio_pad", "razao_dependencia"],
-    key_on="feature.properties.NM_MUN_PAD",
+    columns=["municipio", "razao_dependencia"],
+    key_on="feature.properties.NM_MUN",
     fill_color="YlGnBu",
     nan_fill_color="white",
     legend_name="Razão de Dependência"
