@@ -60,6 +60,15 @@ tabela["municipio"] = (
     .str.strip()
 )
 
+for feature in geojson_data["features"]:
+    feature["properties"]["NM_MUN_PAD"] = (
+        unidecode(
+            feature["properties"]["NM_MUN"]
+        )
+        .upper()
+        .strip()
+    )
+
 # ---------------------------------------------------
 # Sidebar
 # ---------------------------------------------------
@@ -155,20 +164,14 @@ st.plotly_chart(
 st.write("Municípios CSV:", len(tabela)) #report
 
 nomes_geojson = [
-    f["properties"]["NM_MUN"]
+    f["properties"]["NM_MUN_PAD"]
     for f in geojson_data["features"]
 ] #report
 
-st.write("Municípios GeoJSON:", len(nomes_geojson)) #report
-
 st.write(
     "Correspondências:",
-    tabela["municipio"].isin(nomes_geojson).sum()
+    tabela["municipio_pad"].isin(nomes_geojson).sum()
 ) #report
-
-st.write(tabela["municipio"].head(10).tolist()) #report
-
-st.write(nomes_geojson[:10]) #report
 
 st.subheader("Mapa")
 
@@ -180,8 +183,8 @@ mapa = folium.Map(
 folium.Choropleth(
     geo_data=geojson_data,
     data=tabela,
-    columns=["municipio", "razao_dependencia"],
-    key_on="feature.properties.NM_MUN",
+    columns=["municipio_pad", "razao_dependencia"],
+    key_on="feature.properties.NM_MUN_PAD",
     fill_color="YlGnBu",
     nan_fill_color="white",
     legend_name="Razão de Dependência"
