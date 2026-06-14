@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import geopandas as gpd
+import json
 import folium
 
 from streamlit_folium import st_folium
@@ -23,7 +23,11 @@ st.set_page_config(
 @st.cache_data
 def carregar_dados():
 
-    gdf = gpd.read_file("https://github.com/helenaschulzerotta/ppu_dev_aplicacoes_geo/blob/a45bd7c6d1e7eed4e06abcee65c592446eb1fe81/municipios.geojson")
+    with open(
+    "https://github.com/helenaschulzerotta/ppu_dev_aplicacoes_geo/blob/a45bd7c6d1e7eed4e06abcee65c592446eb1fe81/municipios.geojson",
+    encoding="utf-8"
+) as f:
+    gdf = json.load(f)
 
     tabela = pd.read_csv(
         "https://github.com/helenaschulzerotta/ppu_dev_aplicacoes_geo/blob/e43d4cb2f415e264e9c8d496ea5db59c1fdc71f9/indicadores_municipios.csv"
