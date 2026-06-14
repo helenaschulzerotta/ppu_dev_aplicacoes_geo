@@ -206,7 +206,7 @@ else:
         key_on="feature.properties.NM_MUN",
         fill_color="YlOrRd",
         fill_opacity=0.7,
-        line_opacity=0.3,
+        line_opacity=0,
         legend_name="Razão de Dependência"
     ).add_to(mapa)
 
