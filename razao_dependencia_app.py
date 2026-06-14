@@ -23,7 +23,7 @@ st.set_page_config(
 @st.cache_data
 def carregar_dados():
 
-    gdf = gpd.read_file("data/municipios_pr.geojson")
+    gdf = gpd.read_file("https://github.com/helenaschulzerotta/ppu_dev_aplicacoes_geo/blob/a45bd7c6d1e7eed4e06abcee65c592446eb1fe81/municipios.geojson")
 
     tabela = pd.read_csv(
         "data/indicadores_municipios.csv"
