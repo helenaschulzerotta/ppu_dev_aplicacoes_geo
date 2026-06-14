@@ -113,8 +113,8 @@ mun = (
 
 fig = px.bar(
     mun,
-    x="Município",
-    y="Razão de Dependência"
+    x="municipio",
+    y="razao_dependencia"
 )
 
 st.plotly_chart(
