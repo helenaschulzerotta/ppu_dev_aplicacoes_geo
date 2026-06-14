@@ -94,7 +94,9 @@ else:
 st.title("Razão de Dependência dos Municípios do Paraná")
 
 st.markdown("""
-Dashboard desenvolvido em Streamlit utilizando dados municipais.
+Este dashboard foi desenvolvido como exercício da disciplina Desenvolvimento de Aplicações Geoespaciais, ofertada pelo Programa de Pós-Graduação em Planejamento Urbano (PPU) da Universidade Federal do Paraná (UFPR) e ministrada pela Prof.ª Dr.ª Silvana Camboim. A aplicação utiliza dados do Censo Demográfico 2022 do IBGE para visualizar a Razão de Dependência dos municípios do Paraná.
+
+A Razão de Dependência é um indicador demográfico que relaciona a população potencialmente dependente (pessoas de 0 a 14 anos e de 65 anos ou mais) com a população em idade potencialmente ativa (15 a 64 anos). O indicador expressa quantas pessoas dependentes existem para cada 100 pessoas em idade ativa, sendo amplamente utilizado para subsidiar análises de planejamento urbano, políticas públicas, demanda por serviços e projeções socioeconômicas.
 """)
 
 # ---------------------------------------------------
