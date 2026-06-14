@@ -6,6 +6,8 @@ import folium
 from streamlit_folium import st_folium
 import plotly.express as px
 
+from unidecode import unidecode
+
 # ---------------------------------------------------
 # Configuração
 # ---------------------------------------------------
@@ -48,6 +50,14 @@ tabela["municipio"] = (
 tabela["razao_dependencia"] = pd.to_numeric(
     tabela["razao_dependencia"],
     errors="coerce"
+)
+
+tabela["municipio"] = (
+    tabela["municipio"]
+    .astype(str)
+    .apply(unidecode)
+    .str.upper()
+    .str.strip()
 )
 
 # ---------------------------------------------------
@@ -142,19 +152,23 @@ st.plotly_chart(
 # Mapa
 # ---------------------------------------------------
 
-st.write("Municípios CSV:", len(tabela))
+st.write("Municípios CSV:", len(tabela)) #report
 
 nomes_geojson = [
     f["properties"]["NM_MUN"]
     for f in geojson_data["features"]
-]
+] #report
 
-st.write("Municípios GeoJSON:", len(nomes_geojson))
+st.write("Municípios GeoJSON:", len(nomes_geojson)) #report
 
 st.write(
     "Correspondências:",
     tabela["municipio"].isin(nomes_geojson).sum()
-)
+) #report
+
+st.write(tabela["municipio"].head(10).tolist()) #report
+
+st.write(nomes_geojson[:10]) #report
 
 st.subheader("Mapa")
 
