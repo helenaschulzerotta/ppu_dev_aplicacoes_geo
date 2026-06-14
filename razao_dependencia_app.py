@@ -24,18 +24,18 @@ st.set_page_config(
 def carregar_dados():
 
     with open(
-    "https://github.com/helenaschulzerotta/ppu_dev_aplicacoes_geo/blob/a45bd7c6d1e7eed4e06abcee65c592446eb1fe81/municipios.geojson",
+    "municipios.geojson",
     encoding="utf-8") 
     as f:
-    gdf = json.load(f)
+    geojson_data = json.load(f)
 
     tabela = pd.read_csv(
-        "https://github.com/helenaschulzerotta/ppu_dev_aplicacoes_geo/blob/e43d4cb2f415e264e9c8d496ea5db59c1fdc71f9/indicadores_municipios.csv"
+        "indicadores_municipios.csv"
     )
 
-    return gdf, tabela
+    return geojson_data, tabela
 
-gdf, tabela = carregar_dados()
+geojson_data, tabela = carregar_dados()
 
 # ---------------------------------------------------
 # Sidebar
@@ -43,29 +43,24 @@ gdf, tabela = carregar_dados()
 
 st.sidebar.title("Filtros")
 
-municipio = st.sidebar.selectbox(
-    "Município",
-    ["Todos"] + sorted(tabela["municipio"].unique())
+lista_municipios = sorted(
+    tabela["municipio"].dropna().unique()
 )
 
-# ---------------------------------------------------
-# Aplicação do filtro
-# ---------------------------------------------------
+municipio = st.sidebar.selectbox(
+    "Município",
+    ["Todos"] + list(lista_municipios)
+)
 
-if municipio != "Todos":
+if municipio == "Todos":
+
+    tabela_filtro = tabela.copy()
+
+else:
 
     tabela_filtro = tabela[
         tabela["municipio"] == municipio
     ]
-
-    gdf_filtro = gdf[
-        gdf["NM_MUN"] == municipio
-    ]
-
-else:
-
-    tabela_filtro = tabela.copy()
-    gdf_filtro = gdf.copy()
 
 # ---------------------------------------------------
 # Título
@@ -144,10 +139,10 @@ m = folium.Map(
 )
 
 folium.Choropleth(
-    geo_data=gdf_filtro,
-    data=gdf_filtro,
+    geo_data=geojson_data,
+    data=tabela,
     columns=[
-        "NM_MUN",
+        "municipio",
         "razao_dependencia"
     ],
     key_on="feature.properties.NM_MUN",
@@ -156,6 +151,14 @@ folium.Choropleth(
     line_opacity=0.3,
     legend_name="Razão de Dependência"
 ).add_to(m)
+
+folium.GeoJson(
+    geojson_data,
+    tooltip=folium.GeoJsonTooltip(
+        fields=["NM_MUN"],
+        aliases=["Município:"]
+    )
+).add_to(mapa)
 
 st_folium(
     m,
