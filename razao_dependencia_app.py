@@ -100,9 +100,9 @@ col3.metric(
 # Gráfico
 # ---------------------------------------------------
 
-st.subheader("Top 20 Municípios")
+st.subheader("Seleção de um município")
 
-top20 = (
+mun = (
     tabela_filtro
     .sort_values(
         "razao_dependencia",
@@ -112,7 +112,7 @@ top20 = (
 )
 
 fig = px.bar(
-    top20,
+    mun,
     x="municipio",
     y="razao_dependencia"
 )
@@ -155,7 +155,7 @@ folium.GeoJson(
         fields=["NM_MUN"],
         aliases=["Município:"]
     )
-).add_to(mapa)
+).add_to(m)
 
 st_folium(
     m,
