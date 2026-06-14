@@ -100,7 +100,7 @@ col3.metric(
 # Gráfico
 # ---------------------------------------------------
 
-st.subheader("Seleção de um município")
+st.subheader("Razão de Dependência")
 
 mun = (
     tabela_filtro
@@ -113,8 +113,8 @@ mun = (
 
 fig = px.bar(
     mun,
-    x="municipio",
-    y="razao_dependencia"
+    x="Município",
+    y="Razão de Dependência"
 )
 
 st.plotly_chart(
