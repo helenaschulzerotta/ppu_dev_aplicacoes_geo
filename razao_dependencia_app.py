@@ -150,45 +150,77 @@ st.plotly_chart(
     use_container_width=True
 )
 
-# ---------------------------------------------------
+# =====================================================
 # Mapa
-# ---------------------------------------------------
+# =====================================================
 
-st.write("Municípios CSV:", len(tabela)) #report
-
-nomes_geojson = [
-    f["properties"]["NM_MUN"]
-    for f in geojson_data["features"]
-] #report
-
-st.write(
-    "Correspondências:",
-    tabela["municipio"].isin(nomes_geojson).sum()
-) #report
-
-st.subheader("Mapa")
+st.subheader("Mapa Interativo")
 
 mapa = folium.Map(
     location=[-24.8, -51.5],
-    zoom_start=7
+    zoom_start=7,
+    tiles="CartoDB positron"
 )
 
-folium.Choropleth(
-    geo_data=geojson_data,
-    data=tabela,
-    columns=["municipio", "razao_dependencia"],
-    key_on="feature.properties.NM_MUN",
-    fill_color="YlGnBu",
-    nan_fill_color="white",
-    legend_name="Razão de Dependência"
-).add_to(mapa)
+# Se um município foi selecionado
+if municipio != "Todos":
 
-st_folium(
-    mapa,
-    height=600,
-    use_container_width=True
-)
+    geojson_filtrado = {
+        "type": "FeatureCollection",
+        "features": [
+            feature
+            for feature in geojson_data["features"]
+            if feature["properties"]["NM_MUN"] == municipio
+        ]
+    }
 
+    folium.GeoJson(
+        geojson_filtrado,
+        tooltip=folium.GeoJsonTooltip(
+            fields=["NM_MUN"],
+            aliases=["Município:"]
+        ),
+        style_function=lambda x: {
+            "fillColor": "#ff7800",
+            "color": "black",
+            "weight": 2,
+            "fillOpacity": 0.8
+        }
+    ).add_to(mapa)
+
+    # Ajusta o zoom para o município
+    st_folium(
+        mapa,
+        height=600,
+        use_container_width=True
+    )
+
+else:
+
+    folium.Choropleth(
+        geo_data=geojson_data,
+        data=tabela,
+        columns=["municipio", "razao_dependencia"],
+        key_on="feature.properties.NM_MUN",
+        fill_color="YlOrRd",
+        fill_opacity=0.7,
+        line_opacity=0.3,
+        legend_name="Razão de Dependência"
+    ).add_to(mapa)
+
+    folium.GeoJson(
+        geojson_data,
+        tooltip=folium.GeoJsonTooltip(
+            fields=["NM_MUN"],
+            aliases=["Município:"]
+        )
+    ).add_to(mapa)
+
+    st_folium(
+        mapa,
+        height=600,
+        use_container_width=True
+    )
 # ---------------------------------------------------
 # Tabela
 # ---------------------------------------------------
