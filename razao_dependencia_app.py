@@ -35,6 +35,22 @@ def carregar_dados():
 geojson_data, tabela = carregar_dados()
 
 # ---------------------------------------------------
+# Padronização entre arquivos
+# ---------------------------------------------------
+
+tabela["municipio"] = (
+    tabela["municipio"]
+    .astype(str)
+    .str.upper()
+    .str.strip()
+)
+
+tabela["razao_dependencia"] = pd.to_numeric(
+    tabela["razao_dependencia"],
+    errors="coerce"
+)
+
+# ---------------------------------------------------
 # Sidebar
 # ---------------------------------------------------
 
@@ -126,16 +142,35 @@ st.plotly_chart(
 # Mapa
 # ---------------------------------------------------
 
-st.subheader("Teste do GeoJSON")
+st.write("Municípios CSV:", len(tabela))
+
+nomes_geojson = [
+    f["properties"]["NM_MUN"]
+    for f in geojson_data["features"]
+]
+
+st.write("Municípios GeoJSON:", len(nomes_geojson))
+
+st.write(
+    "Correspondências:",
+    tabela["municipio"].isin(nomes_geojson).sum()
+)
+
+st.subheader("Mapa")
 
 mapa = folium.Map(
     location=[-24.8, -51.5],
     zoom_start=7
 )
 
-folium.GeoJson(
-    geojson_data,
-    name="municípios"
+folium.Choropleth(
+    geo_data=geojson_data,
+    data=tabela,
+    columns=["municipio", "razao_dependencia"],
+    key_on="feature.properties.NM_MUN",
+    fill_color="YlGnBu",
+    nan_fill_color="white",
+    legend_name="Razão de Dependência"
 ).add_to(mapa)
 
 st_folium(
