@@ -219,6 +219,7 @@ else:
         style_function=lambda feature: {
             "color": "black",
             "weight": 2,
+            "fillColor":"transparent",
             "fillOpacity": 0.8
         }
     ).add_to(mapa)
