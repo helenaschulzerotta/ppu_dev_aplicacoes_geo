@@ -126,41 +126,22 @@ st.plotly_chart(
 # Mapa
 # ---------------------------------------------------
 
-st.subheader("Mapa Interativo")
+st.subheader("Teste do GeoJSON")
 
-centro = [-24.8, -51.5]
-
-m = folium.Map(
-    location=centro,
+mapa = folium.Map(
+    location=[-24.8, -51.5],
     zoom_start=7
 )
 
-folium.Choropleth(
-    geo_data=geojson_data,
-    data=tabela,
-    columns=[
-        "municipio",
-        "razao_dependencia"
-    ],
-    key_on="feature.properties.NM_MUN",
-    fill_color="YlOrRd",
-    fill_opacity=0.8,
-    line_opacity=0.3,
-    legend_name="Razão de Dependência"
-).add_to(m)
-
 folium.GeoJson(
     geojson_data,
-    tooltip=folium.GeoJsonTooltip(
-        fields=["NM_MUN"],
-        aliases=["Município:"]
-    )
-).add_to(m)
+    name="municípios"
+).add_to(mapa)
 
 st_folium(
-    m,
-    width=1200,
-    height=600
+    mapa,
+    height=600,
+    use_container_width=True
 )
 
 # ---------------------------------------------------
