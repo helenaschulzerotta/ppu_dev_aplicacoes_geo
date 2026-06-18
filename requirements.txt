@@ -1,6 +1,17 @@
-streamlit
-pandas
-plotly
-folium
-streamlit-folium
-unidecode
+# Dashboard de Acessibilidade Urbana — r5py
+streamlit>=1.35
+streamlit-folium>=0.20
+r5py>=0.1
+geopandas>=0.14
+osmnx>=1.9
+h3pandas>=0.2
+folium>=0.16
+pandas>=2.0
+numpy>=1.26
+requests>=2.31
+shapely>=2.0
+
+# Sistema (apt):
+#   sudo apt-get install openjdk-21-jdk-headless osmium-tool
+# Variável de ambiente:
+#   export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
